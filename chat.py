@@ -67,40 +67,43 @@ def main():
 if __name__ == "__main__":
     main()
 
+#En dessous sont édités les instructions à mettre dans le fichier de configuration logstash
+#Il suffit juste d'enlever le caractère '#' au début de chaque ligne
+#Sur chaque ligne, enlevez le caractère '#' une seule fois
 
 #input {
-  file {
-    path => "C:/ELK/donnees/chatbot_log/chat.json"  # Chemin vers votre fichier de logs JSON
-    start_position => "beginning"
-    sincedb_path => "C:/ELK/donnees/chatbot_log/base_lecture/sincedb"  # Assure que Logstash commence à lire depuis le début à chaque démarrage
-    codec => "json"  # Indique que les logs sont au format JSON
-  }
-}
+#  file {
+#    path => "C:/ELK/donnees/chatbot_log/chat.json"  # Chemin vers votre fichier de logs JSON
+#    start_position => "beginning"
+#    sincedb_path => "C:/ELK/donnees/chatbot_log/base_lecture/sincedb"  # Assure que Logstash commence à lire depuis le début à chaque démarrage
+#    codec => "json"  # Indique que les logs sont au format JSON
+#  }
+#}
 
-filter {
-  # Assurez-vous que les champs 'message' et 'response' existent
-  if [message] and [response] {
-    # Exemple de filtre pour extraire des informations supplémentaires (facultatif)
-    # grok {
-    #   match => { "message" => "%{GREEDYDATA:message}" }
-    # }
-  } else {
-    # En cas de ligne de log incorrecte, marquer le message comme une erreur
-    mutate {
-      add_field => { "error_message" => "Ligne de log invalide: %{[message]}" }
-    }
-  }
-}
+#filter {
+#  # Assurez-vous que les champs 'message' et 'response' existent
+#  if [message] and [response] {
+#    # Exemple de filtre pour extraire des informations supplémentaires (facultatif)
+#    # grok {
+#    #   match => { "message" => "%{GREEDYDATA:message}" }
+# }
+# } else {
+#    # En cas de ligne de log incorrecte, marquer le message comme une erreur
+#   mutate {
+#     add_field => { "error_message" => "Ligne de log invalide: %{[message]}" }
+#   }
+#}
+#}
 
-output {
-  elasticsearch {
-    hosts => ["http://localhost:9200"]  # Adresse de votre instance Elasticsearch
-    index => "index_chatbot"  # Index dans Elasticsearch
-    document_id => "%{[@metadata][_id]}"  # (Optionnel) Spécifiez un ID de document si vous avez un champ d'identifiant unique
-  }
+#output {
+#  elasticsearch {
+#    hosts => ["http://localhost:9200"]  # Adresse de votre instance Elasticsearch
+#    index => "index_chatbot"  # Index dans Elasticsearch
+#    document_id => "%{[@metadata][_id]}"  # (Optionnel) Spécifiez un ID de document si vous avez un champ d'identifiant unique
+#  }
 
-  # Vous pouvez également ajouter un output pour la sortie STDOUT pour débogage
-  stdout {
-    codec => rubydebug
-  }
-}
+#  # Vous pouvez également ajouter un output pour la sortie STDOUT pour débogage
+#  stdout {
+#    codec => rubydebug
+#  }
+#}
