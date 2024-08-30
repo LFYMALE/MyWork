@@ -109,7 +109,8 @@ if __name__ == "__main__":
 #}
 
 
-#Instructions à mettre dans le fichier chatbot.sh
+##Instructions à mettre dans le fichier chatbot.sh 
+##Veuillez décomenter chaque ligne lors de l'édition du fichier chatbot.sh
 #commande:"/usr/share/logstash/bin/logstash -f /chemin/vers/lefichier/chatbot.conf
 
 #while true; do
