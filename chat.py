@@ -107,3 +107,15 @@ if __name__ == "__main__":
 #    codec => rubydebug
 #  }
 #}
+
+
+#Instructions à mettre dans le fichier chatbot.sh
+#commande:"/usr/share/logstash/bin/logstash -f /chemin/vers/lefichier/chatbot.conf
+
+#while true; do
+
+#   $commande
+#   sleep 600 #Attendre 10min, vous pouvez modifier le nombre de seconde
+
+#done
+
