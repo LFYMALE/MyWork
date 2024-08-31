@@ -40,3 +40,36 @@ class MetricsSpider(scrapy.Spider):
                             self.logger.error("Erreur lors du décodage JSON: %s", str(e))
                         except Exception as e:
                             self.logger.error("Erreur lors du traitement des données: %s", str(e))
+
+
+
+filter {
+  # Si le contenu de `message` est un JSON, utilisez le filtre JSON
+  json {
+    source => "message"  # Assurez-vous que `message` est le champ contenant le JSON
+  }
+
+  # Extraire la clé `window.gradio_config` du JSON
+  # Assurez-vous que le JSON est correctement imbriqué
+  mutate {
+    add_field => {
+      "gradio_config" => "%{[window][gradio_config]}"
+    }
+  }
+
+  # Utiliser grok si la clé `window.gradio_config` contient des données non JSON ou nécessite un format spécifique
+  # Exemple de grok pour un format de données particulier dans `gradio_config`
+  # Remplacez `%{GREEDYDATA:gradio_config_data}` par un modèle approprié selon le format de vos données
+  grok {
+    match => { "gradio_config" => "%{GREEDYDATA:gradio_config_data}" }
+    # Vous pouvez ajouter des options spécifiques de grok si nécessaire
+  }
+  
+  # Si `gradio_config` contient des champs spécifiques à extraire
+  # Utilisez des filtres JSON supplémentaires si les données sont imbriquées
+  json {
+    source => "gradio_config"
+    target => "gradio_config_details"
+    # Ceci convertira `gradio_config` en un champ structuré `gradio_config_details`
+  }
+}
