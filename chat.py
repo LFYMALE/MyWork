@@ -120,3 +120,24 @@ if __name__ == "__main__":
 
 #done
 
+
+filter {
+  # Si vos logs sont en format JSON, utilisez ce filtre
+  json {
+    source => "message"
+  }
+
+  # Exemple de filtre grok pour extraire des timestamps
+  grok {
+    match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{GREEDYDATA:log_message}" }
+    # Vous pouvez personnaliser l'expression régulière en fonction du format de vos logs
+  }
+
+  # Convertir le champ `timestamp` en un format date reconnu par Logstash
+  date {
+    match => ["timestamp", "ISO8601"]
+    target => "@timestamp"
+    # Optionnel: Format d'entrée spécifique à votre timestamp
+  }
+}
+
